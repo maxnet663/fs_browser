@@ -1,0 +1,11 @@
+#include "include/mainwindow.h"
+#include "interface/ui_browser.h"
+
+MainWindow::MainWindow(QWidget *parent)
+: QMainWindow(parent), ui(new Ui::MainWindow) {
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
