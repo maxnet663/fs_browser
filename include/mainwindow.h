@@ -5,7 +5,9 @@
 #include <QWidget>
 #include <QDir>
 #include <QListView>
+#include <QListWidget>
 #include <QTreeView>
+#include <QTreeWidget>
 #include <QFileSystemModel>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +24,8 @@ Q_OBJECT
     };
 
     Ui::MainWindow *ui;
+    const QString root_dir;
+    QDir current_dir;
     bool show_hidden;
     QAbstractItemView *current_browser;
     View browser_model;
@@ -37,11 +41,19 @@ public slots:
 
     void printChildInfo(const QModelIndex &index);
 
-    void printRootInfo(const QModelIndex &index);
+    void printParentInfo(const QModelIndex &index);
 
     void changeVisibility();
 
     void changeModel();
+
+    void changeDir(const QModelIndex &index);
+
+    void setCurrentDir(const QModelIndex &index);
+
+    void unsetCurrentDir(const QModelIndex &index);
+
+    void jumpToHome();
 
 private:
 
@@ -50,6 +62,8 @@ private:
     void setListView();
 
     void setTreeView();
+
+    void turnMoveButtons(bool state);
 
     QAbstractItemView *setBrowser(View type);
 };
