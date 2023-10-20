@@ -24,6 +24,13 @@
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="search_layout">
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Find</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLineEdit" name="lineSearch">
         <property name="readOnly">
          <bool>true</bool>
@@ -36,6 +43,24 @@
      <layout class="QHBoxLayout" name="browser_layout">
       <item>
        <layout class="QVBoxLayout" name="buttons_layout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="buttonBack">
+            <property name="text">
+             <string>&lt;-</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="buttonForward">
+            <property name="text">
+             <string>-&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item>
          <widget class="QPushButton" name="buttonHome">
           <property name="text">
