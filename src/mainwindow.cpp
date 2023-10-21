@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete current_browser;
 }
 
 void MainWindow::changeModel() {
@@ -51,8 +52,17 @@ void MainWindow::setListView() {
 
     connect(current_browser, &IBrowser::dirChanged
             , this, &MainWindow::printDirInfo);
+    connect(ui->buttonHome, &QPushButton::pressed
+            , current_browser, &IBrowser::jumpHome);
+    connect(ui->buttonHidden, &QPushButton::clicked
+            , current_browser, &IBrowser::turnVisibility);
+    connect(ui->buttonBack, &QPushButton::clicked
+            , browser, &ListBrowser::goBack);
+//    connect(ui->buttonForward, &QPushButton::clicked
+//            , browser, &ListBrowser::goForward);
 
-    printDirInfo(current_browser->getRoot().path());
+    printDirInfo(current_browser->getDirectoryInfo(
+            current_browser->getRoot().path()));
 }
 
 void MainWindow::setTreeView() {
@@ -73,8 +83,15 @@ void MainWindow::setTreeView() {
 
     connect(current_browser, &IBrowser::dirChanged
             , this, &MainWindow::printDirInfo);
+    connect(ui->buttonHome, &QPushButton::pressed
+            , current_browser, &IBrowser::jumpHome);
+    connect(ui->buttonHidden, &QPushButton::clicked
+            , current_browser, &IBrowser::turnVisibility);
+    connect(ui->lineSearch, &QLineEdit::textEdited
+            , current_browser, &IBrowser::filterRecords);
 
-    printDirInfo(current_browser->getRoot().path());
+    printDirInfo(current_browser->getDirectoryInfo(
+            current_browser->getRoot().path()));
 }
 
 void MainWindow::turnMoveButtons(bool state) {

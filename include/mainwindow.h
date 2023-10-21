@@ -47,7 +47,5 @@ private:
     void setTreeView();
 
     void turnMoveButtons(bool state);
-
-    QAbstractItemView *setBrowser(View type);
 };
 #endif //MAINWINDOW_H
