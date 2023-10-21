@@ -1,6 +1,7 @@
+#include "include/mainwindow.h"
+
 #include <QDebug>
 
-#include "include/mainwindow.h"
 #include "interface/ui_browser.h"
 
 MainWindow::MainWindow(QWidget *parent)
