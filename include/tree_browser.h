@@ -26,7 +26,7 @@ public slots:
 
     void switchChild(const QModelIndex &index);
 
-    virtual void jumpHome() override;
+    void jumpHome() override;
 };
 
 #endif //TREE_BROWSER_H
