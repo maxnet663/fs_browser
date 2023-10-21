@@ -10,6 +10,10 @@
 #include <QTreeWidget>
 #include <QFileSystemModel>
 
+#include "include/browser.h"
+#include "include/list_browser.h"
+#include "include/tree_browser.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,41 +28,20 @@ Q_OBJECT
     };
 
     Ui::MainWindow *ui;
-    const QString root_dir;
-    QDir current_dir;
-    bool show_hidden;
-    QAbstractItemView *current_browser;
+    IBrowser *current_browser;
     View browser_model;
-    QFileSystemModel *current_model;
 
 public:
-
     MainWindow(QWidget *parent = nullptr);
 
     ~MainWindow();
 
 public slots:
-
-    void printChildInfo(const QModelIndex &index);
-
-    void printParentInfo(const QModelIndex &index);
-
-    void changeVisibility();
-
     void changeModel();
 
-    void changeDir(const QModelIndex &index);
-
-    void setCurrentDir(const QModelIndex &index);
-
-    void unsetCurrentDir(const QModelIndex &index);
-
-    void jumpToHome();
+    void printDirInfo(const QString &info);
 
 private:
-
-    void printDirectoryInfo(const QDir &dir);
-
     void setListView();
 
     void setTreeView();
