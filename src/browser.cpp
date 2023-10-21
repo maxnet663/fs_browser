@@ -2,14 +2,13 @@
 
 #include <QDebug>
 
-Browser::Browser(const QDir& root_dir, bool _show_hidden)
+IBrowser::IBrowser(const QDir& root_dir, bool _show_hidden)
 : root_dir(root_dir), show_hidden(_show_hidden) {
-    model = new QFileSystemModel;
-    model->setRootPath(root_dir.path());
+    model.setRootPath(root_dir.path());
     current_dir = root_dir;
 }
 
-QString Browser::getDirectoryInfo(const QDir &dir) const {
+QString IBrowser::getDirectoryInfo(const QDir &dir) const {
     int files_num, dir_num;
     if (show_hidden) {
         files_num = dir.entryList(QDir::Hidden | QDir::Files).count();
@@ -25,14 +24,14 @@ QString Browser::getDirectoryInfo(const QDir &dir) const {
     return msg;
 }
 
-void Browser::changeVisibility() {
+void IBrowser::turnVisibility() {
     show_hidden = !show_hidden;
     if (show_hidden) {
-        model->setFilter(QDir::AllEntries
-                                 | QDir::NoDotAndDotDot
-                                 | QDir::Hidden);
+        model.setFilter(QDir::AllEntries
+                        | QDir::NoDotAndDotDot
+                        | QDir::Hidden);
     } else {
-        model->setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
+        model.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
     }
     qDebug() << "Current dir:" << current_dir;
     if (!current_dir.isEmpty())
@@ -41,17 +40,20 @@ void Browser::changeVisibility() {
         getDirectoryInfo(root_dir);
 }
 
-void Browser::setCurrentDir(const QModelIndex &index) {
-    auto path = model->fileInfo(index).absolutePath()
-                       + "/" + index.data().toString();
-    qDebug() << "Set to current dir: " + path;
-    current_dir = QDir(path);
-    emit dirChanged(getDirectoryInfo(path));
+void IBrowser::setCurrentDir(const QDir &dir) {
+    qDebug() << "Set to current dir: " + dir.path();
+    current_dir = dir;
 }
 
-void Browser::unsetCurrentDir(const QModelIndex &index) {
-    auto path = model->fileInfo(index).absolutePath();
-    qDebug() << "Set to current dir: " + path;
-    current_dir = QDir(path);
-    emit dirChanged(getDirectoryInfo(path));
-}
+//void Browser::setCurrentDir(const QModelIndex &index) {
+//    auto path = model->fileInfo(index).absolutePath()
+//                       + "/" + index.data().toString();
+//    qDebug() << "Set to current dir: " + path;
+//    current_dir = QDir(path);
+//}
+//
+//void Browser::unsetCurrentDir(const QModelIndex &index) {
+//    auto path = model->fileInfo(index).absolutePath();
+//    qDebug() << "Set to current dir: " + path;
+//    current_dir = QDir(path);
+//}
