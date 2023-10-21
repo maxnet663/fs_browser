@@ -4,15 +4,16 @@
 
 TreeBrowser::TreeBrowser(const QDir &root_dir, bool _show_hidden)
 : IBrowser(root_dir, _show_hidden) {
-    view.setModel(getModel());
-    view.setRootIndex(getModel()->index(root_dir.path()));
-    view.setSortingEnabled(true);
-    view.setColumnWidth(0, 250);
-    view.sortByColumn(0, Qt::SortOrder::AscendingOrder);
+    view = new QTreeView;
+    view->setModel(getModel());
+    view->setRootIndex(getModel()->index(root_dir.path()));
+    view->setSortingEnabled(true);
+    view->setColumnWidth(0, 250);
+    view->sortByColumn(0, Qt::SortOrder::AscendingOrder);
 
-    connect(&view, &QTreeView::expanded
+    connect(view, &QTreeView::expanded
                      , this, &TreeBrowser::switchChild);
-    connect(&view, &QTreeView::collapsed
+    connect(view, &QTreeView::collapsed
                      , this, &TreeBrowser::switchParent);
 }
 
@@ -35,7 +36,7 @@ void TreeBrowser::switchParent(const QModelIndex &index) {
 }
 
 void TreeBrowser::jumpHome() {
-    view.collapseAll();
+    view->collapseAll();
     IBrowser::setCurrentDir(IBrowser::getRoot());
     emit dirChanged(getDirectoryInfo(getRoot()));
 }
