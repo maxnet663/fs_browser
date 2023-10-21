@@ -14,7 +14,10 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(fs_browser main.cpp include/mainwindow.h src/mainwindow.cpp)
+add_executable(fs_browser
+        main.cpp
+        include/mainwindow.h src/mainwindow.cpp
+        include/searcher.h src/searcher.cpp)
 
 target_include_directories(fs_browser PRIVATE ${CMAKE_SOURCE_DIR})
 
