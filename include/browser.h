@@ -38,6 +38,8 @@ public slots:
     void setCurrentDir(const QDir &dir);
 
     virtual void jumpHome() = 0;
+
+    virtual void filterRecords(const QString &text) = 0;
 };
 
 #endif //BROWSER_H
