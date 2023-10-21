@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTreeView>
+#include <QSortFilterProxyModel>
 
 #include "include/browser.h"
 
@@ -10,6 +11,7 @@ class TreeBrowser : public IBrowser {
 
     Q_OBJECT
     QTreeView view;
+    QSortFilterProxyModel *search_results;
 
 public:
     TreeBrowser(const QDir &root_dir = QDir::homePath()
@@ -27,6 +29,8 @@ public slots:
     void switchChild(const QModelIndex &index);
 
     void jumpHome() override;
+
+    void filterRecords(const QString &text) override;
 };
 
 #endif //TREE_BROWSER_H

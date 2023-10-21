@@ -39,3 +39,13 @@ void TreeBrowser::jumpHome() {
     IBrowser::setCurrentDir(IBrowser::getRoot());
     emit dirChanged(getDirectoryInfo(getRoot()));
 }
+
+void TreeBrowser::filterRecords(const QString &text) {
+    auto pattern = QRegExp(text, Qt::CaseInsensitive, QRegExp::Wildcard);
+    auto model = getModel();
+    search_results = new QSortFilterProxyModel;
+    search_results->setSourceModel(new QFileSystemModel);
+    search_results->setFilterRegExp(pattern);
+    search_results->setFilterKeyColumn(0);
+    view.setModel(search_results);
+}
