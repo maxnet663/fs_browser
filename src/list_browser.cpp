@@ -3,22 +3,23 @@
 #include <QDebug>
 
 ListBrowser::ListBrowser(const QDir &root_dir, bool _show_hidden)
-: Browser(root_dir, _show_hidden) {
-    QObject::connect(this, &QListView::activated
-                     , this, &Browser::setCurrentDir);
+: IBrowser(root_dir, _show_hidden) {
+    view.setModel(getModel());
+    view.setRootIndex(getModel()->index(root_dir.path()));
+    connect(&view, &QListView::activated, this, &ListBrowser::changeDir);
 }
 
 void ListBrowser::changeDir(const QModelIndex &index) {
     auto path = getModel()->filePath(index);
     qDebug() << "cd to: " + path;
-    setRootIndex(getModel()->index(path));
-    setCurrentDir(index);
-//    emit dirChanged(getDirectoryInfo(path));
+    view.setRootIndex(getModel()->index(path));
+    IBrowser::setCurrentDir(path);
+    emit dirChanged(getDirectoryInfo(path));
 }
 
-void ListBrowser::jumpToHome() {
+void ListBrowser::jumpHome()  {
     auto home = getModel()->index(getRoot().path());
     changeDir(home);
-    setCurrentDir(home);
-//    emit dirChanged(getDirectoryInfo(getRoot().path()));
+    IBrowser::setCurrentDir(getRoot().path());
+    emit dirChanged(getDirectoryInfo(getRoot().path()));
 }

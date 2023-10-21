@@ -3,28 +3,39 @@
 #include <QDebug>
 
 TreeBrowser::TreeBrowser(const QDir &root_dir, bool _show_hidden)
-: Browser(root_dir, _show_hidden) {
-    QObject::connect(this, &QTreeView::expanded
-                     , this, &Browser::setCurrentDir);
-    QObject::connect(this, &QTreeView::collapsed
-                     , this, &Browser::unsetCurrentDir);
-//    QObject::connect(this,)
+: IBrowser(root_dir, _show_hidden) {
+    view.setModel(getModel());
+    view.setRootIndex(getModel()->index(root_dir.path()));
+    view.setSortingEnabled(true);
+    view.setColumnWidth(0, 250);
+    view.sortByColumn(0, Qt::SortOrder::AscendingOrder);
+
+    connect(&view, &QTreeView::expanded
+                     , this, &TreeBrowser::switchChild);
+    connect(&view, &QTreeView::collapsed
+                     , this, &TreeBrowser::switchParent);
 }
 
-void TreeBrowser::printParentInfo(const QModelIndex &index) {
+void TreeBrowser::switchChild(const QModelIndex &index) {
     auto dir_path = getModel()->fileInfo(index).absolutePath()
                     + "/"
                     + index.data().toString();
     auto dir = QDir(dir_path);
-    qDebug() << "Print info about: " + dir_path;
+    IBrowser::setCurrentDir(dir);
     emit dirChanged(getDirectoryInfo(dir));
-//    printDirectoryInfo(dir);
+    qDebug() << "Print info about child: " + dir_path;
 }
 
-void TreeBrowser::printChildInfo(const QModelIndex &index) {
+void TreeBrowser::switchParent(const QModelIndex &index) {
     auto dir_path = getModel()->fileInfo(index).absolutePath();
     auto dir = QDir(dir_path);
-    qDebug() << "Printing info about parent: " + dir_path;
-//    emit dir
-//    printDirectoryInfo(dir);
+    IBrowser::setCurrentDir(dir);
+    emit dirChanged(getDirectoryInfo(dir));
+    qDebug() << "Print info about parent: " + dir_path;
+}
+
+void TreeBrowser::jumpHome() {
+    view.collapseAll();
+    IBrowser::setCurrentDir(IBrowser::getRoot());
+    emit dirChanged(getDirectoryInfo(getRoot()));
 }
