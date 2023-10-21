@@ -28,6 +28,8 @@ public slots:
     void goBack();
 
     void goForward(); // todo
+
+    void filterRecords(const QString &text) override;
 };
 
 #endif //LISTBROWSER_H

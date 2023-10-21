@@ -49,3 +49,7 @@ void ListBrowser::goForward() {
     qDebug() << pathCache;
     changeDir(getModel()->index(dest));
 }
+
+void ListBrowser::filterRecords(const QString &text) {
+
+}
