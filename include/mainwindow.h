@@ -41,6 +41,8 @@ public slots:
 
     void printDirInfo(const QString &info);
 
+    void makeSearch();
+
 private:
     void setListView();
 

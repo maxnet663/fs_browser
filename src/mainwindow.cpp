@@ -60,6 +60,8 @@ void MainWindow::setListView() {
             , browser, &ListBrowser::goBack);
 //    connect(ui->buttonForward, &QPushButton::clicked
 //            , browser, &ListBrowser::goForward);
+    connect(ui->lineSearch, &QLineEdit::textChanged
+            , current_browser, &IBrowser::filterRecords);
 
     printDirInfo(current_browser->getDirectoryInfo(
             current_browser->getRoot().path()));
@@ -101,4 +103,8 @@ void MainWindow::turnMoveButtons(bool state) {
 
 void MainWindow::printDirInfo(const QString &info) {
     ui->statusbar->showMessage(info);
+}
+
+void MainWindow::makeSearch() {
+    current_browser->filterRecords(ui->lineSearch->text());
 }
