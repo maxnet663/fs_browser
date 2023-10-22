@@ -2,13 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QWidget>
 #include <QDir>
 #include <QListView>
-#include <QListWidget>
 #include <QTreeView>
-#include <QTreeWidget>
-#include <QFileSystemModel>
 
 #include "include/browser.h"
 #include "include/list_browser.h"
@@ -20,8 +16,11 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
 
-Q_OBJECT
+    Q_OBJECT
 
+    /**
+     * ID for current browser
+     */
     enum class View {
         Tree = 0,
         List = 1
@@ -37,17 +36,32 @@ public:
     ~MainWindow();
 
 public slots:
+    /**
+     * changes current model
+     */
     void changeModel();
 
+    /**
+     * Prints dir info to status bar
+     * @param info
+     */
     void printDirInfo(const QString &info);
 
-    void makeSearch();
-
 private:
+    /**
+     * Sets ListView to current browser
+     */
     void setListView();
 
+    /**
+     * Sets TreeView to current browser
+     */
     void setTreeView();
 
+    /**
+     * Change availability for back and forward buttons
+     * @param state
+     */
     void turnMoveButtons(bool state);
 };
 #endif //MAINWINDOW_H

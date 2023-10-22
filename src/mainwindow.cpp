@@ -11,8 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->lineSearch->setReadOnly(false);
 
-    setTreeView();
+    setTreeView(); // by default sets TreeView
 
+    // connects to change model button
     connect(ui->buttonModel, &QPushButton::pressed
             , this, &MainWindow::changeModel);
 }
@@ -38,17 +39,19 @@ void MainWindow::changeModel() {
 void MainWindow::setListView() {
     auto with_hidden = current_browser ? current_browser->withHidden() : false;
     auto browser = new ListBrowser(QDir::homePath(), with_hidden);
-    if (current_browser) {
+    if (current_browser) { // if we already have browser model
+        // since we are storing a pointer to IBrowser,
+        // we must cast it to child in order to remove from layout
         auto widget_p = dynamic_cast<TreeBrowser*>(current_browser)->getView();
         ui->browser_layout->removeWidget(widget_p);
-        delete current_browser;
+        delete current_browser; // delete old browser
     }
-    ui->browser_layout->addWidget(browser->getView());
+    ui->browser_layout->addWidget(browser->getView()); // add new browser
 
     current_browser = browser;
     browser_model = View::List;
 
-    turnMoveButtons(true);
+    turnMoveButtons(true); // activate back and forward buttons for ListView
 
     connect(current_browser, &IBrowser::dirChanged
             , this, &MainWindow::printDirInfo);
@@ -72,16 +75,18 @@ void MainWindow::setTreeView() {
     auto browser = new TreeBrowser(QDir::homePath(), with_hidden);
 
     if (current_browser) {
+        // since we are storing a pointer to IBrowser,
+        // we must cast it to child in order to remove from layout
         auto widget_p = dynamic_cast<ListBrowser*>(current_browser)->getView();
         ui->browser_layout->removeWidget(widget_p);
-        delete current_browser;
+        delete current_browser; // delete old browser
     }
     ui->browser_layout->addWidget(browser->getView());
 
     current_browser = browser;
     browser_model = View::Tree;
 
-    turnMoveButtons(false);
+    turnMoveButtons(false); // inactivate back and forward buttons for TreeView
 
     connect(current_browser, &IBrowser::dirChanged
             , this, &MainWindow::printDirInfo);
@@ -103,8 +108,4 @@ void MainWindow::turnMoveButtons(bool state) {
 
 void MainWindow::printDirInfo(const QString &info) {
     ui->statusbar->showMessage(info);
-}
-
-void MainWindow::makeSearch() {
-    current_browser->filterRecords(ui->lineSearch->text());
 }

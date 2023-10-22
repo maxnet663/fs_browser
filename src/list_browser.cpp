@@ -40,23 +40,12 @@ void ListBrowser::goBack() {
     changeDir(getModel()->index(dest));
 }
 
-void ListBrowser::goForward() {
+void ListBrowser::goForward() { // todo
     if (pathCache.isEmpty()) return;
     auto idx = pathCache.indexOf(getCurrentDir().path());
     if (idx >= pathCache.size() - 1 || idx < 0) return;
     auto dest = pathCache.at(idx + 1);
-    qDebug() << "Go to previous dir: " + dest;
+    qDebug() << "Go to next dir: " + dest;
     qDebug() << pathCache;
     changeDir(getModel()->index(dest));
-}
-
-void ListBrowser::filterRecords(const QString &text) {
-    auto model = getModel();
-    if (text.isEmpty()) {
-        model->setNameFilterDisables(true);
-        model->setNameFilters(QStringList());
-        return;
-    }
-    model->setNameFilterDisables(true);
-    model->setNameFilters(QStringList(text));
 }

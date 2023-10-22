@@ -1,7 +1,6 @@
 #include "include/tree_browser.h"
 
 #include <QDebug>
-#include <QStandardItemModel>
 
 TreeBrowser::TreeBrowser(const QDir &root_dir, bool _show_hidden)
 : IBrowser(root_dir, _show_hidden) {
@@ -39,15 +38,4 @@ void TreeBrowser::jumpHome() {
     view.collapseAll();
     IBrowser::setCurrentDir(IBrowser::getRoot());
     emit dirChanged(getDirectoryInfo(getRoot()));
-}
-
-void TreeBrowser::filterRecords(const QString &text) {
-    auto model = getModel();
-    if (text.isEmpty()) {
-        model->setNameFilterDisables(true);
-        model->setNameFilters(QStringList());
-        return;
-    }
-    model->setNameFilterDisables(true);
-    model->setNameFilters(QStringList(text));
 }

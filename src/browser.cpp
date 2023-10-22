@@ -46,15 +46,13 @@ void IBrowser::setCurrentDir(const QDir &dir) {
     current_dir = dir;
 }
 
-//void Browser::setCurrentDir(const QModelIndex &index) {
-//    auto path = model->fileInfo(index).absolutePath()
-//                       + "/" + index.data().toString();
-//    qDebug() << "Set to current dir: " + path;
-//    current_dir = QDir(path);
-//}
-//
-//void Browser::unsetCurrentDir(const QModelIndex &index) {
-//    auto path = model->fileInfo(index).absolutePath();
-//    qDebug() << "Set to current dir: " + path;
-//    current_dir = QDir(path);
-//}
+void IBrowser::filterRecords(const QString &text) {
+    auto model = getModel();
+    if (text.isEmpty()) {
+        model->setNameFilterDisables(true);
+        model->setNameFilters(QStringList());
+        return;
+    }
+    model->setNameFilterDisables(true);
+    model->setNameFilters(QStringList(text));
+}
