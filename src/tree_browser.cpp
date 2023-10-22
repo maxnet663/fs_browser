@@ -49,5 +49,5 @@ void TreeBrowser::filterRecords(const QString &text) {
         return;
     }
     model->setNameFilterDisables(true);
-    model->setNameFilters(QStringList("*" + text + "*"));
+    model->setNameFilters(QStringList(text));
 }
