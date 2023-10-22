@@ -5,7 +5,7 @@
 IBrowser::IBrowser(const QDir& root_dir, bool _show_hidden)
 : root_dir(root_dir), show_hidden(_show_hidden) {
     model.setRootPath(root_dir.path());
-    model.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files);
+    model.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
     current_dir = root_dir;
 }
 
