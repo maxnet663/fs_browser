@@ -10,16 +10,16 @@
 class TreeBrowser : public IBrowser {
 
     Q_OBJECT
-    QTreeView *view;
-    QSortFilterProxyModel *search_results;
+    QTreeView view;
+    QSortFilterProxyModel search_results;
 
 public:
     TreeBrowser(const QDir &root_dir = QDir::homePath()
             , bool _show_hidden = false);
 
-    QTreeView *getView() { return view; }
+    QTreeView *getView() { return &view; }
 
-    ~TreeBrowser() override { delete view; delete search_results; }
+    ~TreeBrowser() override = default;
 //signals:
 //    void dirChanged(const QString &info);
 
