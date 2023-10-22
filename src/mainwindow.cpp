@@ -68,6 +68,9 @@ void MainWindow::setListView() {
 
     printDirInfo(current_browser->getDirectoryInfo(
             current_browser->getRoot().path()));
+
+    if (!ui->lineSearch->text().isEmpty())
+        current_browser->filterRecords(ui->lineSearch->text());
 }
 
 void MainWindow::setTreeView() {
@@ -99,6 +102,9 @@ void MainWindow::setTreeView() {
 
     printDirInfo(current_browser->getDirectoryInfo(
             current_browser->getRoot().path()));
+
+    if (!ui->lineSearch->text().isEmpty())
+        current_browser->filterRecords(ui->lineSearch->text());
 }
 
 void MainWindow::turnMoveButtons(bool state) {

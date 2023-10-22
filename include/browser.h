@@ -18,7 +18,7 @@ class IBrowser : public QObject{
     QFileSystemModel model;
 
 public:
-    IBrowser(const QDir& root_dir = QDir::homePath(), bool _show_hidden = false);
+    IBrowser(const QDir &_root_dir = QDir::homePath(), bool _show_hidden = false);
 
     virtual ~IBrowser() = default;
 

@@ -2,8 +2,8 @@
 
 #include <QDebug>
 
-IBrowser::IBrowser(const QDir& root_dir, bool _show_hidden)
-: root_dir(root_dir), show_hidden(_show_hidden) {
+IBrowser::IBrowser(const QDir &_root_dir, bool _show_hidden)
+: root_dir(_root_dir), show_hidden(_show_hidden) {
     model.setRootPath(root_dir.path());
     model.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot);
     current_dir = root_dir;
@@ -47,12 +47,10 @@ void IBrowser::setCurrentDir(const QDir &dir) {
 }
 
 void IBrowser::filterRecords(const QString &text) {
-    auto model = getModel();
+    model.setNameFilterDisables(true);
     if (text.isEmpty()) {
-        model->setNameFilterDisables(true);
-        model->setNameFilters(QStringList());
+        model.setNameFilters(QStringList());
         return;
     }
-    model->setNameFilterDisables(true);
-    model->setNameFilters(QStringList(text));
+    model.setNameFilters(QStringList(text));
 }
