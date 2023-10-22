@@ -51,5 +51,12 @@ void ListBrowser::goForward() {
 }
 
 void ListBrowser::filterRecords(const QString &text) {
-
+    auto model = getModel();
+    if (text.isEmpty()) {
+        model->setNameFilterDisables(true);
+        model->setNameFilters(QStringList());
+        return;
+    }
+    model->setNameFilterDisables(true);
+    model->setNameFilters(QStringList(text));
 }

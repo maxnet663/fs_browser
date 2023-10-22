@@ -5,12 +5,14 @@
 #include <QStringList>
 
 #include "include/browser.h"
+#include <QSortFilterProxyModel>
 
 class ListBrowser : public IBrowser {
 
     Q_OBJECT
     QListView view;
     QStringList pathCache;
+    QSortFilterProxyModel search_results;
 
 public:
     ListBrowser(const QDir &root_dir = QDir::homePath()
